@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hr-portal
+  namespace: apps
+  labels:
+    app: hr-portal
+spec:        
+  selector:
+    app: hr-portal
+  ports:
+  - port: 80
+    targetPort: 80

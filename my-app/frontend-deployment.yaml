@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hr-portal
+  namespace: apps
+  labels:
+    app: hr-portal
+    version: placeholder     # change to v1.0.0 when you swap the real image
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hr-portal
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0      # zero downtime rollout
+  template:
+    metadata:
+      labels:
+        app: hr-portal
+        version: placeholder
+    spec:
+      containers:
+        - name: hr-portal
+          # ─────────────────────────────────────────────────────────────────
+          # PLACEHOLDER IMAGE — swap this line when your real image is ready:
+          #   image: docker.io/<your-dockerhub-username>/hr-portal:v1.0.0
+          # ─────────────────────────────────────────────────────────────────
+          image: nginxdemos/hello:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20

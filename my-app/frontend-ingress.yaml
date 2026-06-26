@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hr-portal-route
+  namespace: monitoring
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`hr-portal.local`)
+    kind: Rule
+    services:
+    - name: hr-portal
+      port: 80
+  tls: {}

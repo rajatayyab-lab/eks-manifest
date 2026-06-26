@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hr-portal
+  namespace: argocd             
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/rajatayyab-lab/frontend-test.git
+    targetRevision: test
+    path: my-app # 👈 This folder inside your repo should hold the manifests below
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps # 👈 Deploys everything inside 'my-app' folder into the 'apps' namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true            
+    syncOptions:
+      - CreateNamespace=true
