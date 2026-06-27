@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: k8s-platform-ui-route
+  namespace: apps
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`k8s-platform-ui.local`)
+    kind: Rule
+    services:
+    - name: k8s-platform-ui
+      port: 80
+  tls: {}
